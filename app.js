@@ -17,13 +17,9 @@ var isDragging = false;
 
 var offsetX, offsetY;
 
-var texts = [
-
-];
-
+var texts = [];
 
 var selectedText = null; // Add a variable to keep track of the selected text
-
 
 canvas.addEventListener('mousedown', function (e) {
     var mouseX = e.clientX - canvas.offsetLeft;
@@ -32,9 +28,9 @@ canvas.addEventListener('mousedown', function (e) {
     // Check each text object to see if we've clicked inside
     texts.forEach(function (textObj, index) {
 
-        if (mouseX > textObj.buttonX && mouseX < textObj.buttonX + textObj.buttonSize &&
-            mouseY > textObj.buttonY && mouseY < textObj.buttonY + textObj.buttonSize) {
-            textObj.isButtonClicked = true;
+        if (mouseX > textObj.deleteButtonX && mouseX < textObj.deleteButtonX + textObj.buttonSize &&
+            mouseY > textObj.deleteButtonY && mouseY < textObj.deleteButtonY + textObj.buttonSize) {
+            textObj.isDeleteButtonClicked = true;
         } else
             if (mouseX > textObj.x - dragPadding && mouseX < textObj.x + textObj.width + dragPadding &&
                 mouseY > textObj.y - textObj.height - dragPadding && mouseY < textObj.y + dragPadding) {
@@ -60,7 +56,7 @@ function drawText(textObj) {
             textObj.width + (2 * dragPadding), textObj.height + (2 * dragPadding));
         // Draw the button
         ctx.fillStyle = "#FF0000"; // Set the button color to red
-        ctx.fillRect(textObj.buttonX, textObj.buttonY, textObj.buttonSize, textObj.buttonSize);
+        ctx.fillRect(textObj.deleteButtonX, textObj.deleteButtonY, textObj.buttonSize, textObj.buttonSize);
 
     }
 
@@ -70,7 +66,7 @@ function drawText(textObj) {
 
 canvas.addEventListener('mouseup', function (e) {
     texts.forEach(function (textObj, index) {
-        if (textObj.isButtonClicked) {
+        if (textObj.isDeleteButtonClicked) {
             // Remove the text from the array
             texts.splice(index, 1);
 
@@ -83,7 +79,7 @@ canvas.addEventListener('mouseup', function (e) {
         }
 
         // Clear the button clicked state
-        textObj.isButtonClicked = false;
+        textObj.isDeleteButtonClicked = false;
     });
 
     // Redraw everything
@@ -96,14 +92,14 @@ canvas.addEventListener('mousemove', function (e) {
     texts.forEach(function (textObj) {
         if (textObj.isDragging) {
             // Calculate the new button position based on the new text position
-            var newButtonX = e.clientX - canvas.offsetLeft - textObj.offsetX + textObj.width + dragPadding;
-            var newButtonY = e.clientY - canvas.offsetTop - textObj.offsetY - textObj.height - dragPadding;
+            var newDeleteButtonX = e.clientX - canvas.offsetLeft - textObj.offsetX + textObj.width + dragPadding;
+            var newDeleteButtonY = e.clientY - canvas.offsetTop - textObj.offsetY - textObj.height - dragPadding;
 
             // Update the text and button position
             textObj.x = e.clientX - canvas.offsetLeft - textObj.offsetX;
             textObj.y = e.clientY - canvas.offsetTop - textObj.offsetY;
-            textObj.buttonX = newButtonX;
-            textObj.buttonY = newButtonY;
+            textObj.deleteButtonX = newDeleteButtonX;
+            textObj.deleteButtonY = newDeleteButtonY;
         }
     });
     // Redraw everything
@@ -137,10 +133,10 @@ addButton.addEventListener('click', function () {
             isDragging: false,
             offsetX: 0,
             offsetY: 0,
-            buttonX: (canvas.width / 2 - measureText(inputText, "20px Arial").width / 2) + measureText(inputText, "20px Arial").width + dragPadding,
-            buttonY: (canvas.height / 2 + measureText(inputText, "20px Arial").height / 2) - measureText(inputText, "20px Arial").height - dragPadding,
+            deleteButtonX: (canvas.width / 2 - measureText(inputText, "20px Arial").width / 2) + measureText(inputText, "20px Arial").width + dragPadding,
+            deleteButtonY: (canvas.height / 2 + measureText(inputText, "20px Arial").height / 2) - measureText(inputText, "20px Arial").height - dragPadding,
             buttonSize: buttonSize,
-            isButtonClicked: false
+            isDeleteButtonClicked: false
         };
 
         // If there was a previously selected text, deselect it
