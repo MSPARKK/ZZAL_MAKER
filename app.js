@@ -19,37 +19,28 @@ var offsetX, offsetY;
 
 var texts = [
     {
-      text: 'NO.1 Drag Me!',
-      x: 50,
-      y: 50,
-      width: measureText('NO.1 Drag Me!', "20px Arial").width,
-      height: measureText('NO.1 Drag Me!', "20px Arial").height,
-      isDragging: false,
-      offsetX: 0,
-      offsetY: 0
-    },
-    {
-      text: 'NO.2 Drag Me!',
-      x: 150,
-      y: 150,
-      width: measureText('NO.2 Drag Me!', "20px Arial").width,
-      height: measureText('NO.2 Drag Me!', "20px Arial").height,
-      isDragging: false,
-      offsetX: 0,
-      offsetY: 0
+        text: 'NO.0 Drag Me!',
+        x: 50,
+        y: 50,
+        width: measureText('NO.0 Drag Me!', "20px Arial").width,
+        height: measureText('NO.0 Drag Me!', "20px Arial").height,
+        isDragging: false,
+        offsetX: 0,
+        offsetY: 0
     }
-  ];
+];
+
 
 var selectedText = null; // Add a variable to keep track of the selected text
 
 
-canvas.addEventListener('mousedown', function(e) {
+canvas.addEventListener('mousedown', function (e) {
     var mouseX = e.clientX - canvas.offsetLeft;
     var mouseY = e.clientY - canvas.offsetTop;
 
     // Check each text object to see if we've clicked inside
-    texts.forEach(function(textObj, index) {
-        if (mouseX > textObj.x - dragPadding && mouseX < textObj.x + textObj.width + dragPadding && 
+    texts.forEach(function (textObj, index) {
+        if (mouseX > textObj.x - dragPadding && mouseX < textObj.x + textObj.width + dragPadding &&
             mouseY > textObj.y - textObj.height - dragPadding && mouseY < textObj.y + dragPadding) {
             textObj.isDragging = true;
             textObj.offsetX = mouseX - textObj.x;
@@ -69,7 +60,7 @@ function drawText(textObj) {
     // Only draw the background if this is the selected text
     if (textObj === selectedText) {
         ctx.fillStyle = "#FFEEAA";
-        ctx.fillRect(textObj.x - dragPadding, textObj.y - textObj.height - dragPadding, 
+        ctx.fillRect(textObj.x - dragPadding, textObj.y - textObj.height - dragPadding,
             textObj.width + (2 * dragPadding), textObj.height + (2 * dragPadding));
     }
 
@@ -77,8 +68,8 @@ function drawText(textObj) {
     ctx.fillText(textObj.text, textObj.x, textObj.y);
 }
 
-canvas.addEventListener('mouseup', function(e) {
-    texts.forEach(function(textObj) {
+canvas.addEventListener('mouseup', function (e) {
+    texts.forEach(function (textObj) {
         textObj.isDragging = false;
     });
 
@@ -87,8 +78,8 @@ canvas.addEventListener('mouseup', function(e) {
 });
 
 // // mousemove event
-canvas.addEventListener('mousemove', function(e) {
-    texts.forEach(function(textObj) {
+canvas.addEventListener('mousemove', function (e) {
+    texts.forEach(function (textObj) {
         if (textObj.isDragging) {
             textObj.x = e.clientX - canvas.offsetLeft - textObj.offsetX;
             textObj.y = e.clientY - canvas.offsetTop - textObj.offsetY;
@@ -101,3 +92,26 @@ canvas.addEventListener('mousemove', function(e) {
 
 // Initial draw
 texts.forEach(drawText);
+
+// Button
+var addButton = document.getElementById('addText'); // Select the button
+var textNumber = 1; // Start the new text numbers at 1
+
+addButton.addEventListener('click', function () {
+    var newText = {
+        text: 'NO.' + textNumber + ' Drag Me!',
+        x: 50,
+        y: 50 + (textNumber * 50), // Change the y position for each new text to avoid overlap
+        width: measureText('NO.' + textNumber + ' Drag Me!', "20px Arial").width,
+        height: measureText('NO.' + textNumber + ' Drag Me!', "20px Arial").height,
+        isDragging: false,
+        offsetX: 0,
+        offsetY: 0
+    };
+
+    texts.push(newText);
+    textNumber++;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    texts.forEach(drawText);
+
+});
