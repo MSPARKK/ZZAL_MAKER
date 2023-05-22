@@ -54,10 +54,14 @@ function drawText(textObj) {
         ctx.fillStyle = "#FFEEAA";
         ctx.fillRect(textObj.x - dragPadding, textObj.y - textObj.height - dragPadding,
             textObj.width + (2 * dragPadding), textObj.height + (2 * dragPadding));
-        // Draw the button
-        ctx.fillStyle = "#FF0000"; // Set the button color to red
+
+        // Draw the delete button
+        ctx.fillStyle = "#FF0000"; // Set the delete button color to red
         ctx.fillRect(textObj.deleteButtonX, textObj.deleteButtonY, textObj.buttonSize, textObj.buttonSize);
 
+        // Draw the resize button
+        ctx.fillStyle = "#000000"; // Set the black button color to black
+        ctx.fillRect(textObj.resizeButtonX, textObj.resizeButtonY, textObj.buttonSize, textObj.buttonSize);
     }
 
     ctx.fillStyle = "black";
@@ -95,11 +99,18 @@ canvas.addEventListener('mousemove', function (e) {
             var newDeleteButtonX = e.clientX - canvas.offsetLeft - textObj.offsetX + textObj.width + dragPadding;
             var newDeleteButtonY = e.clientY - canvas.offsetTop - textObj.offsetY - textObj.height - dragPadding;
 
-            // Update the text and button position
-            textObj.x = e.clientX - canvas.offsetLeft - textObj.offsetX;
-            textObj.y = e.clientY - canvas.offsetTop - textObj.offsetY;
             textObj.deleteButtonX = newDeleteButtonX;
             textObj.deleteButtonY = newDeleteButtonY;
+
+            var newResizeButtonX = e.clientX - canvas.offsetLeft - textObj.offsetX + textObj.width + dragPadding;
+            var newResizeButtonY = e.clientY - canvas.offsetTop - textObj.offsetY + dragPadding;
+
+            textObj.resizeButtonX = newResizeButtonX;
+            textObj.resizeButtonY = newResizeButtonY;
+
+
+            textObj.x = e.clientX - canvas.offsetLeft - textObj.offsetX;
+            textObj.y = e.clientY - canvas.offsetTop - textObj.offsetY;
         }
     });
     // Redraw everything
@@ -135,6 +146,8 @@ addButton.addEventListener('click', function () {
             offsetY: 0,
             deleteButtonX: (canvas.width / 2 - measureText(inputText, "20px Arial").width / 2) + measureText(inputText, "20px Arial").width + dragPadding,
             deleteButtonY: (canvas.height / 2 + measureText(inputText, "20px Arial").height / 2) - measureText(inputText, "20px Arial").height - dragPadding,
+            resizeButtonX: (canvas.width / 2 - measureText(inputText, "20px Arial").width / 2) + measureText(inputText, "20px Arial").width + dragPadding,
+            resizeButtonY: (canvas.height / 2 + measureText(inputText, "20px Arial").height / 2) + dragPadding,
             buttonSize: buttonSize,
             isDeleteButtonClicked: false
         };
