@@ -17,6 +17,8 @@ var isDragging = false;
 
 var offsetX, offsetY;
 
+var buttonSize = 20;
+
 var texts = [];
 
 var selectedText = null; // Add a variable to keep track of the selected text
@@ -95,24 +97,27 @@ canvas.addEventListener('mouseup', function (e) {
 canvas.addEventListener('mousemove', function (e) {
     texts.forEach(function (textObj) {
         if (textObj.isDragging) {
+            const textObjX = e.clientX - canvas.offsetLeft - textObj.offsetX;
+            const textObjY = e.clientY - canvas.offsetTop - textObj.offsetY;
+
+            textObj.x = textObjX;
+            textObj.y = textObjY;
+
             // Calculate the new button position based on the new text position
-            var newDeleteButtonX = e.clientX - canvas.offsetLeft - textObj.offsetX + textObj.width + dragPadding;
-            var newDeleteButtonY = e.clientY - canvas.offsetTop - textObj.offsetY - textObj.height - dragPadding;
+            var newDeleteButtonX = textObjX + textObj.width + dragPadding;
+            var newDeleteButtonY = textObjY - textObj.height - dragPadding - buttonSize;
 
             textObj.deleteButtonX = newDeleteButtonX;
             textObj.deleteButtonY = newDeleteButtonY;
 
-            var newResizeButtonX = e.clientX - canvas.offsetLeft - textObj.offsetX + textObj.width + dragPadding;
-            var newResizeButtonY = e.clientY - canvas.offsetTop - textObj.offsetY + dragPadding;
+            var newResizeButtonX = textObjX + textObj.width + dragPadding;
+            var newResizeButtonY = textObjY + dragPadding;
 
             textObj.resizeButtonX = newResizeButtonX;
             textObj.resizeButtonY = newResizeButtonY;
-
-
-            textObj.x = e.clientX - canvas.offsetLeft - textObj.offsetX;
-            textObj.y = e.clientY - canvas.offsetTop - textObj.offsetY;
         }
     });
+
     // Redraw everything
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     texts.forEach(drawText);
@@ -131,8 +136,7 @@ addButton.addEventListener('click', function () {
     if (inputText) { // Only add the text if the input is not empty
 
         // Add a button size to the text object
-        var buttonSize = 20;
-
+      
         var newText = {
             text: inputText,
             // x: 50,
@@ -144,8 +148,8 @@ addButton.addEventListener('click', function () {
             isDragging: false,
             offsetX: 0,
             offsetY: 0,
-            deleteButtonX: (canvas.width / 2 - measureText(inputText, "20px Arial").width / 2) + measureText(inputText, "20px Arial").width + dragPadding,
-            deleteButtonY: (canvas.height / 2 + measureText(inputText, "20px Arial").height / 2) - measureText(inputText, "20px Arial").height - dragPadding,
+            deleteButtonX: (canvas.width / 2 + measureText(inputText, "20px Arial").width / 2) + dragPadding,
+            deleteButtonY: (canvas.height / 2 - measureText(inputText, "20px Arial").height / 2) - dragPadding - buttonSize,
             resizeButtonX: (canvas.width / 2 - measureText(inputText, "20px Arial").width / 2) + measureText(inputText, "20px Arial").width + dragPadding,
             resizeButtonY: (canvas.height / 2 + measureText(inputText, "20px Arial").height / 2) + dragPadding,
             buttonSize: buttonSize,
