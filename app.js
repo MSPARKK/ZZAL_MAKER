@@ -94,8 +94,10 @@ addButton.addEventListener('click', function () {
     if (inputText) { // Only add the text if the input is not empty
         var newText = {
             text: inputText,
-            x: 50,
-            y: 50,
+            // x: 50,
+            // y: 50,
+            x: canvas.width / 2 - measureText(inputText, "20px Arial").width / 2, // Subtract half the width of the text
+            y: canvas.height / 2 + measureText(inputText, "20px Arial").height / 2, // Add half the height of the text
             width: measureText(inputText, "20px Arial").width,
             height: measureText(inputText, "20px Arial").height,
             isDragging: false,
