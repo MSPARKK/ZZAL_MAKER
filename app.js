@@ -86,32 +86,41 @@ texts.forEach(drawText);
 
 // Button
 var addButton = document.getElementById('addText'); // Select the button
-var textNumber = 1; // Start the new text numbers at 1
+var inputField = document.getElementById('inputText'); // Select the input field
 
 addButton.addEventListener('click', function () {
-    var newText = {
-        text: 'NO.' + textNumber + ' Drag Me!',
-        x: 50,
-        y: 50 + (textNumber * 50), // Change the y position for each new text to avoid overlap
-        width: measureText('NO.' + textNumber + ' Drag Me!', "20px Arial").width,
-        height: measureText('NO.' + textNumber + ' Drag Me!', "20px Arial").height,
-        isDragging: false,
-        offsetX: 0,
-        offsetY: 0
-    };
+    var inputText = inputField.value; // Get the text from the input field
 
-    // If there was a previously selected text, deselect it
-    if (selectedText) {
-        selectedText = null;
+    if (inputText) { // Only add the text if the input is not empty
+        var newText = {
+            text: inputText,
+            x: 50,
+            y: 50,
+            width: measureText(inputText, "20px Arial").width,
+            height: measureText(inputText, "20px Arial").height,
+            isDragging: false,
+            offsetX: 0,
+            offsetY: 0
+        };
+
+        // If there was a previously selected text, deselect it
+        if (selectedText) {
+            selectedText = null;
+        }
+
+        texts.push(newText);
+
+        // Make the new text the selected text
+        selectedText = newText;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        texts.forEach(drawText);
     }
 
-    texts.push(newText);
-    textNumber++;
-
-    // Make the new text the selected text
-    selectedText = newText;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    texts.forEach(drawText);
-
+    inputField.value = ''; // Clear the input field after adding the text
 });
+
+
+
+
+
