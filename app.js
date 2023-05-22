@@ -18,16 +18,7 @@ var isDragging = false;
 var offsetX, offsetY;
 
 var texts = [
-    {
-        text: 'NO.0 Drag Me!',
-        x: 50,
-        y: 50,
-        width: measureText('NO.0 Drag Me!', "20px Arial").width,
-        height: measureText('NO.0 Drag Me!', "20px Arial").height,
-        isDragging: false,
-        offsetX: 0,
-        offsetY: 0
-    }
+
 ];
 
 
@@ -109,8 +100,17 @@ addButton.addEventListener('click', function () {
         offsetY: 0
     };
 
+    // If there was a previously selected text, deselect it
+    if (selectedText) {
+        selectedText = null;
+    }
+
     texts.push(newText);
     textNumber++;
+
+    // Make the new text the selected text
+    selectedText = newText;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     texts.forEach(drawText);
 
