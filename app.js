@@ -7,7 +7,6 @@ canvas.height = 800;
 // Define expanded draggable area
 var dragPadding = 10; // 10px padding on each side
 
-
 // // Draw the initial text
 ctx.fillStyle = "black";
 ctx.font = '20px Arial';
@@ -29,24 +28,37 @@ canvas.addEventListener('mousedown', function (e) {
 
     // Check each text object to see if we've clicked inside
     texts.forEach(function (textObj, index) {
-
-        if (mouseX > textObj.deleteButtonX && mouseX < textObj.deleteButtonX + textObj.buttonSize &&
-            mouseY > textObj.deleteButtonY && mouseY < textObj.deleteButtonY + textObj.buttonSize) {
+        if (
+            mouseX > textObj.deleteButtonX &&
+            mouseX < textObj.deleteButtonX + textObj.buttonSize &&
+            mouseY > textObj.deleteButtonY &&
+            mouseY < textObj.deleteButtonY + textObj.buttonSize
+        ) {
             textObj.isDeleteButtonClicked = true;
-        } else
-            if (mouseX > textObj.x - dragPadding && mouseX < textObj.x + textObj.width + dragPadding &&
-                mouseY > textObj.y - textObj.height - dragPadding && mouseY < textObj.y + dragPadding) {
-                textObj.isDragging = true;
-                textObj.offsetX = mouseX - textObj.x;
-                textObj.offsetY = mouseY - textObj.y;
+        } else if (
+            mouseX > textObj.resizeButtonX &&
+            mouseX < textObj.resizeButtonX + textObj.buttonSize &&
+            mouseY > textObj.resizeButtonY &&
+            mouseY < textObj.resizeButtonY + textObj.buttonSize
+        ) {
+            textObj.isResizeButtonClicked = true;
+            textObj.resizeStartX = mouseX;
+            textObj.resizeStartY = mouseY;
+            textObj.resizeStartWidth = textObj.width;
+            textObj.resizeStartHeight = textObj.height;
+        } else if (mouseX > textObj.x - dragPadding && mouseX < textObj.x + textObj.width + dragPadding &&
+            mouseY > textObj.y - textObj.height - dragPadding && mouseY < textObj.y + dragPadding) {
+            textObj.isDragging = true;
+            textObj.offsetX = mouseX - textObj.x;
+            textObj.offsetY = mouseY - textObj.y;
 
-                // Move the selected text to the end of the array
-                texts.splice(index, 1);
-                texts.push(textObj);
+            // Move the selected text to the end of the array
+            texts.splice(index, 1);
+            texts.push(textObj);
 
-                // Update the selected text when starting to drag
-                selectedText = textObj;
-            }
+            // Update the selected text when starting to drag
+            selectedText = textObj;
+        }
     });
 });
 
@@ -82,6 +94,7 @@ canvas.addEventListener('mouseup', function (e) {
             }
         } else {
             textObj.isDragging = false;
+            textObj.isResizeButtonClicked = false;
         }
 
         // Clear the button clicked state
@@ -115,6 +128,21 @@ canvas.addEventListener('mousemove', function (e) {
 
             textObj.resizeButtonX = newResizeButtonX;
             textObj.resizeButtonY = newResizeButtonY;
+        } else if (textObj.isResizeButtonClicked) {
+            const mouseX = e.clientX - canvas.offsetLeft;
+            const mouseY = e.clientY - canvas.offsetTop;
+
+            // Calculate the distance moved by the mouse
+            const deltaX = mouseX - textObj.resizeStartX;
+            const deltaY = mouseY - textObj.resizeStartY;
+
+            // Calculate the new width and height based on the mouse movement
+            const newWidth = textObj.resizeStartWidth + deltaX;
+            const newHeight = textObj.resizeStartHeight + deltaY;
+
+            // Update the text object's width and height
+            textObj.width = newWidth;
+            textObj.height = newHeight;
         }
     });
 
@@ -136,11 +164,9 @@ addButton.addEventListener('click', function () {
     if (inputText) { // Only add the text if the input is not empty
 
         // Add a button size to the text object
-      
+
         var newText = {
             text: inputText,
-            // x: 50,
-            // y: 50,
             x: canvas.width / 2 - measureText(inputText, "20px Arial").width / 2, // Subtract half the width of the text
             y: canvas.height / 2 + measureText(inputText, "20px Arial").height / 2, // Add half the height of the text
             width: measureText(inputText, "20px Arial").width,
@@ -153,7 +179,12 @@ addButton.addEventListener('click', function () {
             resizeButtonX: (canvas.width / 2 - measureText(inputText, "20px Arial").width / 2) + measureText(inputText, "20px Arial").width + dragPadding,
             resizeButtonY: (canvas.height / 2 + measureText(inputText, "20px Arial").height / 2) + dragPadding,
             buttonSize: buttonSize,
-            isDeleteButtonClicked: false
+            isDeleteButtonClicked: false,
+            isResizeButtonClicked: false,
+            resizeStartX: 0,
+            resizeStartY: 0,
+            resizeStartWidth: 0,
+            resizeStartHeight: 0
         };
 
         // If there was a previously selected text, deselect it
