@@ -86,6 +86,7 @@ addButton.addEventListener('click', function () {
 
         var text = new fabric.Text(inputText, { left: 10, top: 10 });
         canvas.add(text);
+        canvas.setActiveObject(text);
 
         // Make the text object movable and selectable
         text.set({ selectable: true });
