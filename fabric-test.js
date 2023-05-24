@@ -1,4 +1,3 @@
-
 var canvas = new fabric.Canvas('myCanvas');
 
 canvas.width = 800;
@@ -77,30 +76,25 @@ function renderIcon(url) {
 
 // Button and input field
 var addButton = document.getElementById('addText'); // Select the button
-var inputField = document.getElementById('inputText'); // Select the input field
 
 addButton.addEventListener('click', function () {
-    var inputText = inputField.value; // Get the text from the input field
+    // var text = new fabric.IText("기본 텍스트", { left: 10, top: 10 });
+    var text = new fabric.IText("기본 텍스트", { left: 10, top: 10 });
+    canvas.add(text);
+    canvas.setActiveObject(text);
 
-    if (inputText) { // Only add the text if the input is not empty
-
-        var text = new fabric.Text(inputText, { left: 10, top: 10 });
-        canvas.add(text);
-        canvas.setActiveObject(text);
-
-        // Make the text object movable and selectable
-        text.set({ selectable: true });
-    }
-
-    inputField.value = ''; // Clear the input field after adding the text
+    // Make the text object movable and selectable
+    text.set({ selectable: true });
+    text.set({ editable: true });
 });
 
-var blackButton = document.getElementById('blackButton'); // Select the black button
-var redButton = document.getElementById('redButton'); // Select the red button
+var blackButton = document.getElementById('blackButton');
+var redButton = document.getElementById('redButton');
+var blueButton = document.getElementById('blueButton');
 
 blackButton.addEventListener('click', function() {
     var activeObject = canvas.getActiveObject();
-    if (activeObject && activeObject.type === 'text') {
+    if (activeObject && activeObject.type === 'i-text') {
         activeObject.set({ fill: 'black' });
         canvas.renderAll();
     }
@@ -108,7 +102,7 @@ blackButton.addEventListener('click', function() {
 
 redButton.addEventListener('click', function() {
     var activeObject = canvas.getActiveObject();
-    if (activeObject && activeObject.type === 'text') {
+    if (activeObject && activeObject.type === 'i-text') {
         activeObject.set({ fill: 'red' });
         canvas.renderAll();
     }
@@ -116,7 +110,7 @@ redButton.addEventListener('click', function() {
 
 blueButton.addEventListener('click', function() {
     var activeObject = canvas.getActiveObject();
-    if (activeObject && activeObject.type === 'text') {
+    if (activeObject && activeObject.type === 'i-text') {
         activeObject.set({ fill: 'blue' });
         canvas.renderAll();
     }
