@@ -94,3 +94,30 @@ addButton.addEventListener('click', function () {
 
     inputField.value = ''; // Clear the input field after adding the text
 });
+
+var blackButton = document.getElementById('blackButton'); // Select the black button
+var redButton = document.getElementById('redButton'); // Select the red button
+
+blackButton.addEventListener('click', function() {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'text') {
+        activeObject.set({ fill: 'black' });
+        canvas.renderAll();
+    }
+});
+
+redButton.addEventListener('click', function() {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'text') {
+        activeObject.set({ fill: 'red' });
+        canvas.renderAll();
+    }
+});
+
+blueButton.addEventListener('click', function() {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'text') {
+        activeObject.set({ fill: 'blue' });
+        canvas.renderAll();
+    }
+});
