@@ -43,8 +43,8 @@ function renderDeleteIcon(ctx, left, top, styleOverride, fabricObject) {
 fabric.Object.prototype.controls.deleteControl = deleteControl;
 
 var rotateControl = new fabric.Control({
-    x: 0.5, // position the control to the bottom right
-    y: 0.5,
+    x: -0.5, // position the control to the bottom right
+    y: -0.5,
     cursorStyle: 'pointer',
     actionHandler: fabric.controlsUtils.rotationWithSnapping,
     actionName: 'rotate',
