@@ -1,17 +1,56 @@
 var canvas = new fabric.Canvas('myCanvas');
 
+canvas.selectionColor = 'rgba(0, 255, 0, 0.3)'; // Green color with 30% transparency
+canvas.selectionBorderColor = 'green'; // Green border color
+
 canvas.width = 800;
 canvas.height = 800;
 
 
+// Custom control for scaling
+var scaleControl = new fabric.Control({
+    x: 0.5,
+    y: 0.5,
+    actionHandler: fabric.controlsUtils.scalingEqually,
+    actionName: 'scale',
+    cursorStyle: 'se-resize',
+    cornerSize: 26,
+    render: renderCircleControl,
+});
+
+// Render function for custom controls
+function renderCircleControl(ctx, left, top, styleOverride, fabricObject) {
+    ctx.save();
+    ctx.translate(left, top);
+    ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+    ctx.beginPath();
+    ctx.arc(0, 0, this.cornerSize/2, 0, 2 * Math.PI, false);
+    ctx.fillStyle = styleOverride.cornerColor || 'rgba(255, 255, 255, 1)';
+    ctx.strokeStyle = styleOverride.cornerStrokeColor || 'rgba(20, 20, 20, 0.5)';
+    ctx.lineWidth = 2;
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+}
+
+// Replace all controls with custom controls
+fabric.Object.prototype.controls = {
+  mtr: rotateControl,  // Custom rotate control
+  br: scaleControl,  // Custom scale control
+  deleteControl: deleteControl  // Custom delete control
+};
+
+// var controllerColor = 'rgba(255, 87, 34, 0.5)';
+var controllerColor = 'rgba(20, 20, 20, 0.5)';
+
 fabric.Object.prototype.set({
     transparentCorners: false,
-    cornerColor: 'rgba(255, 87, 34, 0.7)',
-    cornerStrokeColor: 'rgba(255, 87, 34, 0.5)',
-    borderColor: 'rgba(255, 87, 34, 0.5)',
+    borderColor: controllerColor,
     cornerSize: 12,
-    padding: 10
+    padding: 10,
+    borderScaleFactor: 3
 });
+
 
 var deleteControl = new fabric.Control({
     x: 0.5,
@@ -19,7 +58,7 @@ var deleteControl = new fabric.Control({
     cursorStyle: 'pointer',
     mouseUpHandler: deleteObject,
     render: renderDeleteIcon,
-    cornerSize: 30
+    cornerSize: 26
 });
 
 function deleteObject(eventData, transform) {
@@ -34,9 +73,12 @@ function renderDeleteIcon(ctx, left, top, styleOverride, fabricObject) {
     ctx.translate(left, top);
     ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
     ctx.beginPath();
-    ctx.arc(0, 0, 15, 0, 2 * Math.PI, false);
+    ctx.arc(0, 0, this.cornerSize/2, 0, 2 * Math.PI, false);
     ctx.fillStyle = 'red';
     ctx.fill();
+    ctx.strokeStyle = 'rgba(20, 20, 20, 0.5)';
+    ctx.lineWidth = 2; // Set the thickness of the stroke
+    ctx.stroke();
     ctx.restore();
 }
 
@@ -49,7 +91,7 @@ var rotateControl = new fabric.Control({
     actionHandler: fabric.controlsUtils.rotationWithSnapping,
     actionName: 'rotate',
     render: renderRotateIcon, // use custom render method
-    cornerSize: 30
+    cornerSize: 26
 });
 
 function renderRotateIcon(ctx, left, top, styleOverride, fabricObject) {
@@ -57,9 +99,12 @@ function renderRotateIcon(ctx, left, top, styleOverride, fabricObject) {
     ctx.translate(left, top);
     ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
     ctx.beginPath();
-    ctx.arc(0, 0, 15, 0, 2 * Math.PI, false);
-    ctx.fillStyle = 'black'; // draw a black circle
+    ctx.arc(0, 0, this.cornerSize/2, 0, 2 * Math.PI, false);
+    ctx.fillStyle = 'black';
     ctx.fill();
+    ctx.strokeStyle = 'rgba(20, 20, 20, 0.5)';
+    ctx.lineWidth = 2; // Set the thickness of the stroke
+    ctx.stroke();
     ctx.restore();
 }
 
