@@ -6,7 +6,6 @@ canvas.selectionBorderColor = 'green'; // Green border color
 canvas.width = 800;
 canvas.height = 800;
 
-
 // Custom control for scaling
 var scaleControl = new fabric.Control({
     x: 0.5,
@@ -159,4 +158,22 @@ blueButton.addEventListener('click', function() {
         activeObject.set({ fill: 'blue' });
         canvas.renderAll();
     }
+});
+
+canvas.on('selection:created', function(e) {
+    if (e.selected[0] && e.selected[0].type === 'i-text') {
+        document.getElementById('color-buttonss').classList.remove('hidden');
+    }
+});
+
+canvas.on('selection:updated', function(e) {
+    if (e.selected[0] && e.selected[0].type === 'i-text') {
+        document.getElementById('color-buttonss').classList.remove('hidden');
+    } else {
+        document.getElementById('color-buttonss').classList.add('hidden');
+    }
+});
+
+canvas.on('selection:cleared', function() {
+    document.getElementById('color-buttonss').classList.add('hidden');
 });

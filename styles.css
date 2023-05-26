@@ -47,11 +47,15 @@ body {
     margin-top: 20px; /* or the amount of space you want */
 }
 
-#color-buttons {
+#color-buttonss {
     display: flex;
     justify-content: center;
     gap: 6px;
     margin-top: 10px;
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 .circle-button.black {
