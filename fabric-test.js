@@ -39,7 +39,6 @@ fabric.Object.prototype.controls = {
   deleteControl: deleteControl  // Custom delete control
 };
 
-// var controllerColor = 'rgba(255, 87, 34, 0.5)';
 var controllerColor = 'rgba(20, 20, 20, 0.5)';
 
 fabric.Object.prototype.set({
@@ -122,8 +121,12 @@ function renderIcon(url) {
 var addButton = document.getElementById('addText'); // Select the button
 
 addButton.addEventListener('click', function () {
-    // var text = new fabric.IText("기본 텍스트", { left: 10, top: 10 });
-    var text = new fabric.IText("기본 텍스트", { left: 10, top: 10 });
+    var text = new fabric.IText("기본 텍스트", { 
+        left: canvas.width / 2,  // Set left to half of the canvas width
+        top: canvas.height / 2,  // Set top to half of the canvas height
+        originX: 'center',  // Set originX to 'center'
+        originY: 'center'   // Set originY to 'center'
+    });
     canvas.add(text);
     canvas.setActiveObject(text);
 
