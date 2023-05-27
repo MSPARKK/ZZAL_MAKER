@@ -163,20 +163,39 @@ blueButton.addEventListener('click', function() {
     }
 });
 
-canvas.on('selection:created', function(e) {
-    if (e.selected[0] && e.selected[0].type === 'i-text') {
-        document.getElementById('color-buttonss').classList.remove('hidden');
+function handleSelection(e, event) {
+    const colorButtons = document.getElementById('color-buttonss');
+    const textInput = document.getElementById('text-input');
+
+    switch (event) {
+        case 'cleared':
+            colorButtons.classList.add('hidden');
+            textInput.classList.remove('hidden');
+            break;
+        case 'created':
+        case 'updated':
+            if (e.selected[0] && e.selected[0].type === 'i-text') {
+                colorButtons.classList.remove('hidden');
+                textInput.classList.add('hidden');
+            } else {
+                colorButtons.classList.add('hidden');
+                textInput.classList.remove('hidden');
+            }
+            break;
+        default:
+            console.log('Unknown event');
+            break;
     }
+}
+
+canvas.on('selection:created', function(e) {
+    handleSelection(e, 'created');
 });
 
 canvas.on('selection:updated', function(e) {
-    if (e.selected[0] && e.selected[0].type === 'i-text') {
-        document.getElementById('color-buttonss').classList.remove('hidden');
-    } else {
-        document.getElementById('color-buttonss').classList.add('hidden');
-    }
+    handleSelection(e, 'updated');
 });
 
-canvas.on('selection:cleared', function() {
-    document.getElementById('color-buttonss').classList.add('hidden');
+canvas.on('selection:cleared', function(e) {
+    handleSelection(e, 'cleared');
 });
