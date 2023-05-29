@@ -136,33 +136,19 @@ addButton.addEventListener('click', function () {
     text.set({ editable: true });
 });
 
-var blackButton = document.getElementById('blackButton');
-var redButton = document.getElementById('redButton');
-var blueButton = document.getElementById('blueButton');
+var colorButtons = document.querySelectorAll('#color-buttonss .circle-button');
 
-blackButton.addEventListener('click', function() {
-    var activeObject = canvas.getActiveObject();
-    if (activeObject && activeObject.type === 'i-text') {
-        activeObject.set({ fill: 'black' });
-        canvas.renderAll();
-    }
+colorButtons.forEach(function(colorButtons) {
+    colorButtons.addEventListener('click', function() {
+        var activeObject = canvas.getActiveObject();
+        if (activeObject && activeObject.type === 'i-text') {
+            var color = this.id.replace('Button', '');
+            activeObject.set({ fill: color });
+            canvas.renderAll();
+        }
+    });
 });
 
-redButton.addEventListener('click', function() {
-    var activeObject = canvas.getActiveObject();
-    if (activeObject && activeObject.type === 'i-text') {
-        activeObject.set({ fill: 'red' });
-        canvas.renderAll();
-    }
-});
-
-blueButton.addEventListener('click', function() {
-    var activeObject = canvas.getActiveObject();
-    if (activeObject && activeObject.type === 'i-text') {
-        activeObject.set({ fill: 'blue' });
-        canvas.renderAll();
-    }
-});
 
 var euljiroButton = document.getElementById('fontEuljiroButton');
 var jamsilButton = document.getElementById('fontJamsilButton');
