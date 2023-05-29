@@ -164,23 +164,46 @@ blueButton.addEventListener('click', function() {
     }
 });
 
+var euljiroButton = document.getElementById('fontEuljiroButton');
+var jamsilButton = document.getElementById('fontJamsilButton');
+
+euljiroButton.addEventListener('click', function() {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'i-text') {
+        activeObject.set({ fontFamily: 'BMEULJIRO' });
+        canvas.renderAll();
+    }
+});
+
+jamsilButton.addEventListener('click', function() {
+    var activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'i-text') {
+        activeObject.set({ fontFamily: 'TheJamsil5Bold' });
+        canvas.renderAll();
+    }
+});
+
 function handleSelection(e, event) {
-    const colorButtons = document.getElementById('color-buttonss');
     const textInput = document.getElementById('text-input');
+    const colorButtons = document.getElementById('color-buttonss');
+    const fontButtons = document.getElementById('font-buttonss')
 
     switch (event) {
         case 'cleared':
-            colorButtons.classList.add('hidden');
             textInput.classList.remove('hidden');
+            colorButtons.classList.add('hidden');
+            fontButtons.classList.add('hidden');
             break;
         case 'created':
         case 'updated':
             if (e.selected[0] && e.selected[0].type === 'i-text') {
-                colorButtons.classList.remove('hidden');
                 textInput.classList.add('hidden');
+                colorButtons.classList.remove('hidden');
+                fontButtons.classList.remove('hidden');
             } else {
-                colorButtons.classList.add('hidden');
                 textInput.classList.remove('hidden');
+                colorButtons.classList.add('hidden');
+                fontButtons.classList.add('hidden');
             }
             break;
         default:
