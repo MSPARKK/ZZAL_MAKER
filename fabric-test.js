@@ -3,8 +3,11 @@ var canvas = new fabric.Canvas('myCanvas');
 canvas.selectionColor = 'rgba(0, 255, 0, 0.3)'; // Green color with 30% transparency
 canvas.selectionBorderColor = 'green'; // Green border color
 
-canvas.width = 800;
-canvas.height = 800;
+var initialCanvasWidth = 800;
+var initialCanvasHeight = 800;
+
+canvas.width = initialCanvasWidth;
+canvas.height = initialCanvasHeight;
 
 // Custom control for scaling
 var scaleControl = new fabric.Control({
@@ -208,3 +211,64 @@ canvas.on('selection:updated', function(e) {
 canvas.on('selection:cleared', function(e) {
     handleSelection(e, 'cleared');
 });
+
+// 캔버스 크기 조정 함수
+function resizeCanvas() {
+    let browserWidth = window.innerWidth;
+    let browserHeight = window.innerHeight;
+    
+    // 캔버스의 최대 크기
+    let maxCanvasSize = 800;
+
+    // 캔버스의 원래 가로 세로 비율
+    let aspectRatio = 1; // 여기서는 1:1 (가로:세로) 비율
+
+    // 브라우저 창 크기에 따른 캔버스 크기 조절
+    let canvasSize = Math.min(browserWidth * 0.8, browserHeight * 0.8, maxCanvasSize);  // 브라우저 창 크기와 최대 캔버스 크기 중 작은 값
+
+    // 캔버스의 가로 세로 크기 설정
+    let canvasWidth = canvasSize * aspectRatio;
+    let canvasHeight = canvasSize;
+
+    // canvas.setWidth(canvasWidth);
+    // canvas.setHeight(canvasHeight);
+
+
+    let scaleX = canvasWidth / initialCanvasWidth;
+    let scaleY = canvasHeight / initialCanvasHeight;
+
+    // Update canvas size
+    canvas.setWidth(canvasWidth);
+    canvas.setHeight(canvasHeight);
+
+    // Scale all objects
+    let objects = canvas.getObjects();
+    for(let i in objects) {
+        let scaleX = objects[i].scaleX;
+        let scaleY = objects[i].scaleY;
+        let left = objects[i].left;
+        let top = objects[i].top;
+
+        let tempScaleX = scaleX * (canvasWidth / initialCanvasWidth);
+        let tempScaleY = scaleY * (canvasHeight / initialCanvasHeight);
+        let tempLeft = left * (canvasWidth / initialCanvasWidth);
+        let tempTop = top * (canvasHeight / initialCanvasHeight);
+
+        objects[i].scaleX = tempScaleX;
+        objects[i].scaleY = tempScaleY;
+        objects[i].left = tempLeft;
+        objects[i].top = tempTop;
+
+        objects[i].setCoords();
+    }
+
+    canvas.renderAll();
+    initialCanvasWidth = canvasWidth;
+    initialCanvasHeight = canvasHeight;
+}
+
+// 창 크기가 변경될 때마다 캔버스 크기 조정
+window.addEventListener('resize', resizeCanvas);
+
+// 페이지 로드 시 캔버스 크기 조정
+window.addEventListener('load', resizeCanvas);
