@@ -125,7 +125,8 @@ addButton.addEventListener('click', function () {
         left: canvas.width / 2,  // Set left to half of the canvas width
         top: canvas.height / 2,  // Set top to half of the canvas height
         originX: 'center',  // Set originX to 'center'
-        originY: 'center'   // Set originY to 'center'
+        originY: 'center',   // Set originY to 'center'
+        fontFamily: 'BMEULJIRO'
     });
     canvas.add(text);
     canvas.setActiveObject(text);
