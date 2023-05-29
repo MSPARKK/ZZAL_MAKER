@@ -149,24 +149,23 @@ colorButtons.forEach(function(colorButtons) {
     });
 });
 
+var fontMap = {
+    'fontEuljiroButton': 'BMEULJIRO',
+    'fontJamsilButton': 'TheJamsil5Bold',
+    // 추가 폰트 버튼이 있다면 여기에 추가
+};
 
-var euljiroButton = document.getElementById('fontEuljiroButton');
-var jamsilButton = document.getElementById('fontJamsilButton');
+var fontButtons = document.querySelectorAll('.font-button');
 
-euljiroButton.addEventListener('click', function() {
-    var activeObject = canvas.getActiveObject();
-    if (activeObject && activeObject.type === 'i-text') {
-        activeObject.set({ fontFamily: 'BMEULJIRO' });
-        canvas.renderAll();
-    }
-});
-
-jamsilButton.addEventListener('click', function() {
-    var activeObject = canvas.getActiveObject();
-    if (activeObject && activeObject.type === 'i-text') {
-        activeObject.set({ fontFamily: 'TheJamsil5Bold' });
-        canvas.renderAll();
-    }
+fontButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+        var activeObject = canvas.getActiveObject();
+        if (activeObject && activeObject.type === 'i-text') {
+            var fontName = fontMap[this.id];
+            activeObject.set({ fontFamily: fontName });
+            canvas.renderAll();
+        }
+    });
 });
 
 function handleSelection(e, event) {
