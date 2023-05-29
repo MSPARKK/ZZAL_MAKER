@@ -125,7 +125,8 @@ addButton.addEventListener('click', function () {
         left: canvas.width / 2,  // Set left to half of the canvas width
         top: canvas.height / 2,  // Set top to half of the canvas height
         originX: 'center',  // Set originX to 'center'
-        originY: 'center'   // Set originY to 'center'
+        originY: 'center',   // Set originY to 'center'
+        fontFamily: 'BMEULJIRO'
     });
     canvas.add(text);
     canvas.setActiveObject(text);
@@ -135,48 +136,75 @@ addButton.addEventListener('click', function () {
     text.set({ editable: true });
 });
 
-var blackButton = document.getElementById('blackButton');
-var redButton = document.getElementById('redButton');
-var blueButton = document.getElementById('blueButton');
+var colorButtons = document.querySelectorAll('#color-buttonss .circle-button');
 
-blackButton.addEventListener('click', function() {
-    var activeObject = canvas.getActiveObject();
-    if (activeObject && activeObject.type === 'i-text') {
-        activeObject.set({ fill: 'black' });
-        canvas.renderAll();
-    }
+colorButtons.forEach(function(colorButtons) {
+    colorButtons.addEventListener('click', function() {
+        var activeObject = canvas.getActiveObject();
+        if (activeObject && activeObject.type === 'i-text') {
+            var color = this.id.replace('Button', '');
+            activeObject.set({ fill: color });
+            canvas.renderAll();
+        }
+    });
 });
 
-redButton.addEventListener('click', function() {
-    var activeObject = canvas.getActiveObject();
-    if (activeObject && activeObject.type === 'i-text') {
-        activeObject.set({ fill: 'red' });
-        canvas.renderAll();
-    }
+var fontMap = {
+    'fontEuljiroButton': 'BMEULJIRO',
+    'fontJamsilButton': 'TheJamsil5Bold',
+    // 추가 폰트 버튼이 있다면 여기에 추가
+};
+
+var fontButtons = document.querySelectorAll('.font-button');
+
+fontButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+        var activeObject = canvas.getActiveObject();
+        if (activeObject && activeObject.type === 'i-text') {
+            var fontName = fontMap[this.id];
+            activeObject.set({ fontFamily: fontName });
+            canvas.renderAll();
+        }
+    });
 });
 
-blueButton.addEventListener('click', function() {
-    var activeObject = canvas.getActiveObject();
-    if (activeObject && activeObject.type === 'i-text') {
-        activeObject.set({ fill: 'blue' });
-        canvas.renderAll();
+function handleSelection(e, event) {
+    const textInput = document.getElementById('text-input');
+    const colorButtons = document.getElementById('color-buttonss');
+    const fontButtons = document.getElementById('font-buttonss')
+
+    switch (event) {
+        case 'cleared':
+            textInput.classList.remove('hidden');
+            colorButtons.classList.add('hidden');
+            fontButtons.classList.add('hidden');
+            break;
+        case 'created':
+        case 'updated':
+            if (e.selected[0] && e.selected[0].type === 'i-text') {
+                textInput.classList.add('hidden');
+                colorButtons.classList.remove('hidden');
+                fontButtons.classList.remove('hidden');
+            } else {
+                textInput.classList.remove('hidden');
+                colorButtons.classList.add('hidden');
+                fontButtons.classList.add('hidden');
+            }
+            break;
+        default:
+            console.log('Unknown event');
+            break;
     }
-});
+}
 
 canvas.on('selection:created', function(e) {
-    if (e.selected[0] && e.selected[0].type === 'i-text') {
-        document.getElementById('color-buttonss').classList.remove('hidden');
-    }
+    handleSelection(e, 'created');
 });
 
 canvas.on('selection:updated', function(e) {
-    if (e.selected[0] && e.selected[0].type === 'i-text') {
-        document.getElementById('color-buttonss').classList.remove('hidden');
-    } else {
-        document.getElementById('color-buttonss').classList.add('hidden');
-    }
+    handleSelection(e, 'updated');
 });
 
-canvas.on('selection:cleared', function() {
-    document.getElementById('color-buttonss').classList.add('hidden');
+canvas.on('selection:cleared', function(e) {
+    handleSelection(e, 'cleared');
 });
