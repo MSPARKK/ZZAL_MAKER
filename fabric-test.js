@@ -123,7 +123,7 @@ function renderIcon(url) {
 // Button and input field
 var addButton = document.getElementById('addText'); // Select the button
 
-addButton.addEventListener('click', function () {
+addButton.addEventListener('click', function (e) {
     var fontSize = canvas.width / 10;
     var text = new fabric.IText("기본 텍스트", { 
         left: canvas.width / 2,  // Set left to half of the canvas width
@@ -139,18 +139,22 @@ addButton.addEventListener('click', function () {
     // Make the text object movable and selectable
     text.set({ selectable: true });
     text.set({ editable: true });
+
+    e.stopPropagation();
 });
 
 var colorButtons = document.querySelectorAll('#color-buttonss .circle-button');
 
 colorButtons.forEach(function(colorButtons) {
-    colorButtons.addEventListener('click', function() {
+    colorButtons.addEventListener('click', function(e) {
         var activeObject = canvas.getActiveObject();
         if (activeObject && activeObject.type === 'i-text') {
             var color = this.id.replace('Button', '');
             activeObject.set({ fill: color });
             canvas.renderAll();
         }
+
+        e.stopPropagation();
     });
 });
 
@@ -163,13 +167,15 @@ var fontMap = {
 var fontButtons = document.querySelectorAll('.font-button');
 
 fontButtons.forEach(function(button) {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function(e) {
         var activeObject = canvas.getActiveObject();
         if (activeObject && activeObject.type === 'i-text') {
             var fontName = fontMap[this.id];
             activeObject.set({ fontFamily: fontName });
             canvas.renderAll();
         }
+
+        e.stopPropagation();
     });
 });
 
@@ -274,3 +280,14 @@ window.addEventListener('resize', resizeCanvas);
 
 // 페이지 로드 시 캔버스 크기 조정
 window.addEventListener('load', resizeCanvas);
+
+// 캔버스 밖을 클릭하더라도 선택된 텍스트가 없게 처리
+document.body.addEventListener('click', function(e) {
+    var canvasContainer = document.getElementById('myCanvas').parentElement;
+    
+    if (e.target == canvasContainer || canvasContainer.contains(e.target)) {
+      return;
+    }
+    
+    canvas.discardActiveObject().requestRenderAll();
+  });
