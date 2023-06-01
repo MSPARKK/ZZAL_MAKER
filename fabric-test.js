@@ -131,8 +131,11 @@ addButton.addEventListener('click', function (e) {
         originX: 'center',  // Set originX to 'center'
         originY: 'center',   // Set originY to 'center'
         fontFamily: 'BMEULJIRO',
-        fontSize: fontSize  // Set the font size
+        fontSize: fontSize,  // Set the font size
+        stroke: '#129956',
+        strokeWidth: 3.5
     });
+    
     canvas.add(text);
     canvas.setActiveObject(text);
 
