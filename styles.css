@@ -21,7 +21,7 @@ canvas {
 body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; 
     align-items: center;
     height: 100vh;
 }
@@ -75,8 +75,28 @@ body {
     transition: background-color 0.3s ease;
 }
 
+#control-input {
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #text-input {
-    margin-top: 20px; /* or the amount of space you want */
+    position: absolute;
+    align-items: center;
+    gap: 6px;
+}
+
+#text-style {
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
 }
 
 #color-buttonss {
@@ -85,6 +105,14 @@ body {
     gap: 6px;
     margin-top: 10px;
 }
+
+#font-buttonss {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+}
+
 
 .hidden {
     visibility: hidden;

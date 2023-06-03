@@ -188,25 +188,21 @@ fontButtons.forEach(function (button) {
 
 function handleSelection(e, event) {
     const textInput = document.getElementById('text-input');
-    const colorButtons = document.getElementById('color-buttonss');
-    const fontButtons = document.getElementById('font-buttonss')
+    const textStyle = document.getElementById('text-style')
 
     switch (event) {
         case 'cleared':
             textInput.classList.remove('hidden');
-            colorButtons.classList.add('hidden');
-            fontButtons.classList.add('hidden');
+            textStyle.classList.add('hidden');
             break;
         case 'created':
         case 'updated':
             if (e.selected[0] && e.selected[0].type === 'i-text') {
                 textInput.classList.add('hidden');
-                colorButtons.classList.remove('hidden');
-                fontButtons.classList.remove('hidden');
+                textStyle.classList.remove('hidden');
             } else {
                 textInput.classList.remove('hidden');
-                colorButtons.classList.add('hidden');
-                fontButtons.classList.add('hidden');
+                textStyle.classList.add('hidden');
             }
             break;
         default:
