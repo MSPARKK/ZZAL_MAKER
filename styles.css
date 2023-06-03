@@ -57,6 +57,18 @@ body {
     transition: background-color 0.3s ease;
 }
 
+
+.save-button {
+    background-color: green;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
 .add-button.text:hover {
     background-color: darkblue; 
 }
@@ -76,7 +88,12 @@ body {
     transition: background-color 0.3s ease;
 }
 
-#control-input {
+#div-maker-top {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#div-maker_bottom {
     position: relative;
     width: 50%;
     margin: 0 auto;
