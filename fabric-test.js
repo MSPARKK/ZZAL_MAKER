@@ -330,14 +330,15 @@ function handleImage(e) {
     reader.readAsDataURL(e.target.files[0]);
 }
 
-
 document.getElementById('saveBtn').addEventListener('click', function() {
-    var canvas = document.getElementById('myCanvas'); // Replace with your canvas id
+    // Deselect active object
+    canvas.discardActiveObject().renderAll();
+
     var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); // here is the most important part because if you don't replace you will get a DOM 18 exception.
 
     // Create a link element
     var link = document.createElement('a');
-    
+
     // Use timestamp for unique file names
     var timestamp = Date.now();
     link.download = 'my-image-' + timestamp + '.png';
