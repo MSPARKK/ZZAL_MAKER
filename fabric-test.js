@@ -241,10 +241,6 @@ function resizeCanvas() {
     let canvasWidth = canvasSize * aspectRatio;
     let canvasHeight = canvasSize;
 
-    // canvas.setWidth(canvasWidth);
-    // canvas.setHeight(canvasHeight);
-
-
     let scaleX = canvasWidth / initialCanvasWidth;
     let scaleY = canvasHeight / initialCanvasHeight;
 
