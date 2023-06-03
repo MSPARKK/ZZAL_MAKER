@@ -1,3 +1,6 @@
+var divIntro = document.getElementById('div-intro');
+var divMaker = document.getElementById('div-maker');
+
 var canvas = new fabric.Canvas('myCanvas');
 
 canvas.selectionColor = 'rgba(0, 255, 0, 0.3)'; // Green color with 30% transparency
@@ -323,8 +326,10 @@ function handleImage(e) {
             canvas.add(image);
             canvas.sendToBack(image);  // Makes sure the image is always in the back
             canvas.renderAll();
+
+            divIntro.classList.add('hidden');
+            divMaker.classList.remove('hidden');
         }
     }
     reader.readAsDataURL(e.target.files[0]);
 }
-

@@ -26,6 +26,25 @@ body {
     height: 100vh;
 }
 
+#div-intro {
+    position: absolute;
+    /* Positioning the div element */
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    background-color: green;
+    /* Green background */
+    display: flex;
+    /* Using flexbox for center alignment */
+    justify-content: center;
+    /* Horizontal center alignment */
+    align-items: center;
+    /* Vertical center alignment */
+}
+
 .add-button {
     background-color: blue;
     border: none;

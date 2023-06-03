@@ -8,29 +8,31 @@
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <input type="file" id="imageLoader" name="imageLoader"/>
-
-    <canvas id="myCanvas" width="800" height="800"></canvas>
-
-    <div id="text-input">
-        <button class="add-button text" id="addText">Add Text</button>
+    <div id="div-intro">
+        <input type="file" id="imageLoader" name="imageLoader"/>
     </div>
 
-    <div id="color-buttonss" class="hidden">
-        <button class="circle-button black" id="blackButton"></button>
-        <button class="circle-button red" id="redButton"></button>
-        <button class="circle-button blue" id="blueButton"></button>
-    </div>
+    <div id="div-maker" class="hidden">
+        <canvas id="myCanvas" width="800" height="800"></canvas>
 
-    <div id="font-buttonss" class="hidden">
-        <button class="font-button euljiro" id="fontEuljiroButton">을지로체</button>
-        <button class="font-button jamsil" id="fontJamsilButton">더잠실체</button>
+        <div id="text-input">
+            <button class="add-button text" id="addText">Add Text</button>
+        </div>
+    
+        <div id="color-buttonss" class="hidden">
+            <button class="circle-button black" id="blackButton"></button>
+            <button class="circle-button red" id="redButton"></button>
+            <button class="circle-button blue" id="blueButton"></button>
+        </div>
+    
+        <div id="font-buttonss" class="hidden">
+            <button class="font-button euljiro" id="fontEuljiroButton">을지로체</button>
+            <button class="font-button jamsil" id="fontJamsilButton">더잠실체</button>
+        </div>
     </div>
-
 
     <script src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
     <script src="measureText.js"></script>
-    <!-- <script src="app.js"></script> -->
     <script src="fabric-test.js"></script>
 </body>
 </html>
