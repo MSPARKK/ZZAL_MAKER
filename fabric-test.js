@@ -125,6 +125,7 @@ var addButton = document.getElementById('addText'); // Select the button
 
 addButton.addEventListener('click', function (e) {
     var fontSize = canvas.width / 10;
+    var strokeWidth = canvas.width / 200;
     var text = new fabric.IText("기본 텍스트", {
         left: canvas.width / 2,  // Set left to half of the canvas width
         top: canvas.height / 2,  // Set top to half of the canvas height
@@ -132,8 +133,8 @@ addButton.addEventListener('click', function (e) {
         originY: 'center',   // Set originY to 'center'
         fontFamily: 'BMEULJIRO',
         fontSize: fontSize,  // Set the font size
-        stroke: '#ffffff',
-        strokeWidth: 3.5
+        stroke: '#999999',
+        strokeWidth: strokeWidth
     });
 
     canvas.add(text);
