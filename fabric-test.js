@@ -26,7 +26,7 @@ function renderCircleControl(ctx, left, top, styleOverride, fabricObject) {
     ctx.translate(left, top);
     ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
     ctx.beginPath();
-    ctx.arc(0, 0, this.cornerSize/2, 0, 2 * Math.PI, false);
+    ctx.arc(0, 0, this.cornerSize / 2, 0, 2 * Math.PI, false);
     ctx.fillStyle = styleOverride.cornerColor || 'rgba(255, 255, 255, 1)';
     ctx.strokeStyle = styleOverride.cornerStrokeColor || 'rgba(20, 20, 20, 0.5)';
     ctx.lineWidth = 2;
@@ -37,9 +37,9 @@ function renderCircleControl(ctx, left, top, styleOverride, fabricObject) {
 
 // Replace all controls with custom controls
 fabric.Object.prototype.controls = {
-  mtr: rotateControl,  // Custom rotate control
-  br: scaleControl,  // Custom scale control
-  deleteControl: deleteControl  // Custom delete control
+    mtr: rotateControl,  // Custom rotate control
+    br: scaleControl,  // Custom scale control
+    deleteControl: deleteControl  // Custom delete control
 };
 
 var controllerColor = 'rgba(20, 20, 20, 0.5)';
@@ -67,14 +67,14 @@ function deleteObject(eventData, transform) {
     var canvas = target.canvas;
     canvas.remove(target);
     canvas.requestRenderAll();
-  }
+}
 
 function renderDeleteIcon(ctx, left, top, styleOverride, fabricObject) {
     ctx.save();
     ctx.translate(left, top);
     ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
     ctx.beginPath();
-    ctx.arc(0, 0, this.cornerSize/2, 0, 2 * Math.PI, false);
+    ctx.arc(0, 0, this.cornerSize / 2, 0, 2 * Math.PI, false);
     ctx.fillStyle = 'red';
     ctx.fill();
     ctx.strokeStyle = 'rgba(20, 20, 20, 0.5)';
@@ -100,7 +100,7 @@ function renderRotateIcon(ctx, left, top, styleOverride, fabricObject) {
     ctx.translate(left, top);
     ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
     ctx.beginPath();
-    ctx.arc(0, 0, this.cornerSize/2, 0, 2 * Math.PI, false);
+    ctx.arc(0, 0, this.cornerSize / 2, 0, 2 * Math.PI, false);
     ctx.fillStyle = 'black';
     ctx.fill();
     ctx.strokeStyle = 'rgba(20, 20, 20, 0.5)';
@@ -125,17 +125,17 @@ var addButton = document.getElementById('addText'); // Select the button
 
 addButton.addEventListener('click', function (e) {
     var fontSize = canvas.width / 10;
-    var text = new fabric.IText("기본 텍스트", { 
+    var text = new fabric.IText("기본 텍스트", {
         left: canvas.width / 2,  // Set left to half of the canvas width
         top: canvas.height / 2,  // Set top to half of the canvas height
         originX: 'center',  // Set originX to 'center'
         originY: 'center',   // Set originY to 'center'
         fontFamily: 'BMEULJIRO',
         fontSize: fontSize,  // Set the font size
-        stroke: '#129956',
+        stroke: '#ffffff',
         strokeWidth: 3.5
     });
-    
+
     canvas.add(text);
     canvas.setActiveObject(text);
 
@@ -148,8 +148,8 @@ addButton.addEventListener('click', function (e) {
 
 var colorButtons = document.querySelectorAll('#color-buttonss .circle-button');
 
-colorButtons.forEach(function(colorButtons) {
-    colorButtons.addEventListener('click', function(e) {
+colorButtons.forEach(function (colorButtons) {
+    colorButtons.addEventListener('click', function (e) {
         var activeObject = canvas.getActiveObject();
         if (activeObject && activeObject.type === 'i-text') {
             var color = this.id.replace('Button', '');
@@ -169,8 +169,8 @@ var fontMap = {
 
 var fontButtons = document.querySelectorAll('.font-button');
 
-fontButtons.forEach(function(button) {
-    button.addEventListener('click', function(e) {
+fontButtons.forEach(function (button) {
+    button.addEventListener('click', function (e) {
         var activeObject = canvas.getActiveObject();
         if (activeObject && activeObject.type === 'i-text') {
             var fontName = fontMap[this.id];
@@ -211,15 +211,15 @@ function handleSelection(e, event) {
     }
 }
 
-canvas.on('selection:created', function(e) {
+canvas.on('selection:created', function (e) {
     handleSelection(e, 'created');
 });
 
-canvas.on('selection:updated', function(e) {
+canvas.on('selection:updated', function (e) {
     handleSelection(e, 'updated');
 });
 
-canvas.on('selection:cleared', function(e) {
+canvas.on('selection:cleared', function (e) {
     handleSelection(e, 'cleared');
 });
 
@@ -227,7 +227,7 @@ canvas.on('selection:cleared', function(e) {
 function resizeCanvas() {
     let browserWidth = window.innerWidth;
     let browserHeight = window.innerHeight;
-    
+
     // 캔버스의 최대 크기
     let maxCanvasSize = 800;
 
@@ -254,7 +254,7 @@ function resizeCanvas() {
 
     // Scale all objects
     let objects = canvas.getObjects();
-    for(let i in objects) {
+    for (let i in objects) {
         let scaleX = objects[i].scaleX;
         let scaleY = objects[i].scaleY;
         let left = objects[i].left;
@@ -285,12 +285,45 @@ window.addEventListener('resize', resizeCanvas);
 window.addEventListener('load', resizeCanvas);
 
 // 캔버스 밖을 클릭하더라도 선택된 텍스트가 없게 처리
-document.body.addEventListener('click', function(e) {
+document.body.addEventListener('click', function (e) {
     var canvasContainer = document.getElementById('myCanvas').parentElement;
-    
+
     if (e.target == canvasContainer || canvasContainer.contains(e.target)) {
-      return;
+        return;
     }
-    
+
     canvas.discardActiveObject().requestRenderAll();
-  });
+});
+
+
+document.getElementById('imageLoader').addEventListener("change", handleImage, false);
+
+function handleImage(e) {
+    var reader = new FileReader();
+    reader.onload = function (event) {
+        var imgObj = new Image();
+        imgObj.src = event.target.result;
+        imgObj.onload = function () {
+            var image = new fabric.Image(imgObj);
+            image.set({
+                scaleX: canvas.width / imgObj.width,
+                scaleY: canvas.height / imgObj.height,
+                lockMovementX: true,  // Prevents moving the image on the x axis
+                lockMovementY: true,  // Prevents moving the image on the y axis
+                lockScalingX: true,  // Prevents scaling the image on the x axis
+                lockScalingY: true,  // Prevents scaling the image on the y axis
+                lockRotation: true,  // Prevents rotating the image
+                hasBorders: false,  // Removes the border around the image
+                hasControls: false,  // Removes the control points around the image
+                selectable: false
+            });
+            image.setCoords();  // Updates the image's coordinates
+            canvas.centerObject(image);  // Centers the image on the canvas
+            canvas.add(image);
+            canvas.sendToBack(image);  // Makes sure the image is always in the back
+            canvas.renderAll();
+        }
+    }
+    reader.readAsDataURL(e.target.files[0]);
+}
+
