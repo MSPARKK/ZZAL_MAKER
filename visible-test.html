@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZZAL MAKER</title>
+    <style>
+        #test1 {
+            position: absolute;
+            /* Positioning the div element */
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            background-color: green;
+            /* Green background */
+            display: flex;
+            /* Using flexbox for center alignment */
+            justify-content: center;
+            /* Horizontal center alignment */
+            align-items: center;
+            /* Vertical center alignment */
+        }
+
+        #test2 {
+            position: absolute;
+            /* Positioning the div element */
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            background-color: blue;
+        }
+
+        .hidden {
+            visibility: hidden;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="test1">
+        <button class="font-button euljiro" id="fontEuljiroButton">을지로체</button>
+    </div>
+
+    <div id="test2"  class="hidden" >
+        <button class="font-button hapjeong" id="hapjeongButton">합정체</button>
+    </div>
+    <script src="visible-test.js"></script>
+</body>
+
+</html>

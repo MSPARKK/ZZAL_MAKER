@@ -13,6 +13,7 @@
 }
 
 canvas {
+    margin-top: 10px;
     width:800px;
     height:800px;
     border:5px solid black;
@@ -21,13 +22,44 @@ canvas {
 body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; 
     align-items: center;
     height: 100vh;
 }
 
+#div-intro {
+    position: absolute;
+    /* Positioning the div element */
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    background-color: green;
+    /* Green background */
+    display: flex;
+    /* Using flexbox for center alignment */
+    justify-content: center;
+    /* Horizontal center alignment */
+    align-items: center;
+    /* Vertical center alignment */
+}
+
 .add-button {
     background-color: blue;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.save-button {
+    background-color: green;
     border: none;
     border-radius: 50px;
     color: white;
@@ -56,15 +88,48 @@ body {
     transition: background-color 0.3s ease;
 }
 
+#saveBtn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#div-maker_bottom {
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 60px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #text-input {
-    margin-top: 20px; /* or the amount of space you want */
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+
+#text-style {
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
 }
 
 #color-buttonss {
     display: flex;
     justify-content: center;
     gap: 6px;
-    margin-top: 10px;
+    margin-top: 40px;
+}
+
+#font-buttonss {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
 }
 
 .hidden {
